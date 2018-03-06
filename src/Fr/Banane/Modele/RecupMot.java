@@ -17,17 +17,12 @@ public class RecupMot {
 
 	protected ArrayList<String> listDico = new ArrayList<String>();
 
-
-
-
 	public RecupMot() {
 		//Recuperation et mise en ArrayList du dictionnaire
 		System.out.println(nbre); //DEBUG**********************************************************************
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(file));
-
-
 			String line;
 			while ((line = br.readLine()) != null) {
 				listDico.add(line);
@@ -49,7 +44,7 @@ public class RecupMot {
 		motMyst = listDico.get(nbre);
 
 		motMystSA = unaccent(motMyst);
-		System.out.println(motMystSA); //DEBUG*****************************************************************
+		//System.out.println(motMystSA); //DEBUG*****************************************************************
 
 	}
 	//METHODE______________________________________________________________________________________________________

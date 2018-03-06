@@ -8,15 +8,64 @@ private int pts, ptsTotal, nbreMot;
 private String nom;
 
 public Score() {
-	this.nom = "______";
-	this.ptsTotal = 0;
-	this.nbreMot = 0;
+	nom = "none";
+	ptsTotal = 0;
+	nbreMot = 0;
 }
 
 public Score(String nom, int ptsTotal, int nbreMot) {
 	this.nom = nom;
 	this.ptsTotal = ptsTotal;
 	this.nbreMot = nbreMot;
+}
+
+public void initTotalScore(int fautes) {
+	switch (fautes) {
+	case 0:
+		pts = 100;
+		ptsTotal += 100;
+		nbreMot += 1;
+		break;
+	case 1:
+		pts = 50;
+		ptsTotal += 50;
+		nbreMot += 1;
+		break;
+		
+	case 2:
+		pts = 35;
+		ptsTotal += 35;
+		nbreMot += 1;
+		break;
+		
+	case 3:
+		pts = 25;
+		ptsTotal += 25;
+		nbreMot += 1;
+		break;
+		
+	case 4:
+		pts = 15;
+		ptsTotal += 15;
+		nbreMot += 1;
+		break;
+		
+	case 5:
+		pts = 10;
+		ptsTotal += 10;
+		nbreMot += 1;
+		break;
+		
+	case 6:
+		pts = 5;
+		ptsTotal += 5;
+		nbreMot += 1;
+		break;
+		
+	default :
+		this.pts = 0;
+		
+	}
 }
 
 public int getPts() {
@@ -43,57 +92,20 @@ public void setPtsTotal(int ptsTotal) {
 	this.ptsTotal = ptsTotal;
 }
 
-public void initTotalScore(int fautes) {
-	switch (fautes) {
-	case 0:
-		this.pts = 100;
-		this.ptsTotal += 100;
-		this.nbreMot += 1;
-		break;
-	case 1:
-		this.pts = 50;
-		this.ptsTotal += 50;
-		this.nbreMot += 1;
-		break;
-		
-	case 2:
-		this.pts = 35;
-		this.ptsTotal += 35;
-		this.nbreMot += 1;
-		break;
-		
-	case 3:
-		this.pts = 25;
-		this.ptsTotal += 25;
-		this.nbreMot += 1;
-		break;
-		
-	case 4:
-		this.pts = 15;
-		this.ptsTotal += 15;
-		this.nbreMot += 1;
-		break;
-		
-	case 5:
-		this.pts = 10;
-		this.ptsTotal += 10;
-		this.nbreMot += 1;
-		break;
-		
-	case 6:
-		this.pts = 5;
-		this.ptsTotal += 5;
-		this.nbreMot += 1;
-		break;
-		
-	default :
-		this.pts = 0;
-		
-	}
+public int getNbreMot() {
+	return nbreMot;
 }
+
+public void setNbreMot(int nbreMot) {
+	this.nbreMot = nbreMot;
+}
+
 	public String toString() {
 		String str = nom + " --> "+ ptsTotal + " ("+ nbreMot + " mots )";
 		return str;
 	}
-
+	public static void main(String[] args) {
+		Score scr = new Score("nom ?", 1100, 11);
+		System.out.println(scr.toString());
+	}
 }

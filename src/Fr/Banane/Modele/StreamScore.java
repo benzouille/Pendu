@@ -50,6 +50,10 @@ public void lireFichier() {
 	}
 }
 
+public void scoreCompare() {
+	//TODO comparer le score dans listScore si +grand que le 10eme trier et enlever la valeur à index[10]
+}
+
 public void ecrireFichier(Score score) {
 	try {
 		oos = new ObjectOutputStream(
@@ -77,7 +81,7 @@ public void ecrireFichier(Score score) {
 
 
 public Score[] getListScore(){
-	return this.listScore;
+	return listScore;
 }
 
 }

@@ -49,6 +49,9 @@ public class PanneauImage extends JPanel {
 
 
 	public void setImg(int nbre) {
+		if (nbre > 7) {
+			nbre = 7;
+		}
 		        cl.show(content, listImages[nbre]);
 		}	
 }	

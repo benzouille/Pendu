@@ -16,22 +16,25 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import Fr.Banane.Modele.*;
+import Fr.Banane.Observer.Observable;
+import Fr.Banane.Observer.Observateur;
 
-public class FenetrePendu extends JFrame {
+public class FenetrePendu extends JFrame implements Observateur {
+	
+	private PanneauAccueil home = new PanneauAccueil();
+	private PanneauRegles regle = new PanneauRegles();
+	private PanneauJeu jeu = new PanneauJeu();
+	private PanneauScore topScore = new PanneauScore();
+	private Model ml;
 	
 	private CardLayout cl = new CardLayout();
-	
 	private JPanel container = new JPanel();
-	private PanneauJeu jeu;
-	private PanneauAccueil home = new PanneauAccueil();
-	
-	private PanneauRegles regle = new PanneauRegles();
-	private PanneauScore topScore = new PanneauScore();
 	
 	private String [] listPan = {"CARD_HOME","CARD_JEU","CARD_REGLE","CARD_SCORE"};
 
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu fichier = new JMenu("Fichier"),
+			
 			aProp = new JMenu("A propos");
 
 	private JMenuItem nouveau = new JMenuItem("Nouveau"),
@@ -41,7 +44,6 @@ public class FenetrePendu extends JFrame {
 					aProposItem = new JMenuItem("?");
 
 	public FenetrePendu() {
-		this.jeu = new PanneauJeu();
 		this.setTitle("Pendu");
 		this.setSize(1024, 900);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,19 +56,28 @@ public class FenetrePendu extends JFrame {
 		container.add(regle, listPan[2]);
 		container.add(topScore, listPan[3]);
 		
+		//On place un écouteur le Model
+	    ml = new Model();
+	    ml.addObservateur(this);
+	    
+		
 		this.setContentPane(container);
-		this.initMenu();
+		initMenu();
+		
 		this.setVisible(true);
 	}
+	
+		
 
-	public void initMenu() {
+	private void initMenu() {
 		//Menu Fichier
 		fichier.add(nouveau);
 		nouveau.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
 		nouveau.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cl.show(container, listPan[1]);
-		        jeu.reset();
+				setPanneau(1);
+				//cl.show(container, listPan[1]);
+				jeu = new PanneauJeu();
 			}
 		});
 		
@@ -75,7 +86,9 @@ public class FenetrePendu extends JFrame {
 		score.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//changer de panneau et afficher le panneauScore
-		        cl.show(container, listPan[3]);
+				setPanneau(3);
+				topScore = new PanneauScore();
+		        //cl.show(container, listPan[3]);
 			}
 		});
 
@@ -84,7 +97,8 @@ public class FenetrePendu extends JFrame {
 		regles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//changer de panneau et afficher le panneauRegle
-		        cl.show(container, listPan[2]);
+				setPanneau(2);
+		        //cl.show(container, listPan[2]);
 			}
 		});
 
@@ -120,8 +134,38 @@ public class FenetrePendu extends JFrame {
 		this.setJMenuBar(menuBar); 
 	}
 	
-	public static void main(String[] args) {
-		FenetrePendu fen = new FenetrePendu();
-	}
+	public void setPanneau(int indexPan) {
+			cl.show(container, listPan[indexPan]);
+		}
 
+	public void update(String win, int nbreMot, int nbreErr, int score, int totalScore, String mot, String motCrypt) {
+		if (win == "gagné") {
+			//String str = "Bravo vous avez : \n\t " + totalScore + "points";
+			//JOptionPane.showMessageDialog(null, str , "Vous avez gagné !", JOptionPane.NO_OPTION);
+			//jeu = new PanneauJeu();
+			//setPanneau(1);
+			System.out.println("gagné, un peu");
+		}
+	else if (win == "perdu") {
+		//String str = "Dommage Le mot était " + mot +". Bravo vous avez : \n\t " + totalScore + "points";
+		//JOptionPane.showMessageDialog(null, str ,"Vous avez perdu", JOptionPane.NO_OPTION);
+		//topScore = new PanneauScore();
+		//setPanneau(3);
+		System.out.println("pas gagné");
+	}
+	else if (win == "tout perdu") {
+		String str = "Dommage Le mot était " + mot;
+			JOptionPane.showMessageDialog(null, str ,"Vous avez perdu", JOptionPane.NO_OPTION);
+			setPanneau(0);
+		System.out.println("pas gagné du tout");
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		Observable model = new Model();
+		FenetrePendu fen = new FenetrePendu();
+		model.addObservateur(fen);
+		model.updateObservateur();
+	}
 }
